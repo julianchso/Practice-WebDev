@@ -5,6 +5,7 @@ function Circle(radius) {
   }
 }
 
-const another = new Circle();
+const circle = new Circle(10);
 
-console.log(another.draw());
+keys = Object.keys(circle);
+console.log(keys);
