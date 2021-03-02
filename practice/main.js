@@ -1,11 +1,5 @@
-function Circle(radius) {
-  this.radius = radius;
-  this.draw = function() {
-    console.log("draw");
-  }
+function Stopwatch() {
+  // 58:21
 }
 
-const circle = new Circle(10);
-
-keys = Object.keys(circle);
-console.log(keys);
+const sw = new Stopwatch();
