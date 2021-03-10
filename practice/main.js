@@ -118,30 +118,30 @@ function dblLinear(n) {
   let u2 = 0;
   let tmp = 0;
 
+  let tempArr = [];
+
   if (arr.length == 1) {
     let y = 2 * u1 + 1;
     arr.push(y);
+    tempArr.push(y);
     let z = 3 * u1 + 1;
     arr.push(z);
-
-    u1 = y;
-    u2 = z;
+    tempArr.push(z);
   }
 
-  while (arr.length < n) {
-    y = 2 * u1 + 1;
-    arr.push(y);
-    z = 3 * u1 + 1;
-    arr.push(z);
-
-    y = 2 * u2 + 1;
-    arr.push(y);
-    z = 3 * u2 + 1;
-    arr.push(z);
-
-    u1 = y;
-    u2 = z;
+  for (let i = 0; i < n ; i++) {
+    tempArr = []
+    tempArr.forEach(element => {
+      y = 2 * element + 1;
+      z = 3 * element + 1;
+      tempArr.push(y);
+      tempArr.push(z);
+      arr.push(y);
+      arr.push(z);
+    });
   }
+
+  // 
 
   console.log(arr);
   return arr[n];
