@@ -53,16 +53,16 @@
 
 // const newCircle = new Circle(10);
 
-// // for (let key in circle) {
-// //   if (typeof circle[key] !== 'function') {
-// //     console.log(key, circle[key]);
-// //   }
-// // }
+// for (let key in circle) {
+//   if (typeof circle[key] !== 'function') {
+//     console.log(key, circle[key]);
+//   }
+// }
 
 // const keys = Object.keys(circle);
 // newCircle.getDefaultLocation();
 
-// ///
+///
 
 // function Stopwatch() {
 //   let startTime = 0;
@@ -110,7 +110,53 @@
 //   });
 // }
 
-// const sw = new Stopwatch();
+function Stopwatch() {
+  let startTime = 0;
+  let running = false;
+  let endTime = 0;
+  let duration = 0;
+
+  this.start = function () {
+    if (!running) {
+      running = true;
+      startTime = Date.now();
+    } else {
+      throw new Error("Stopwatch is already running!");
+    }
+  };
+
+  this.stop = function () {
+    if (running) {
+      running = false;
+      endTime = Date.now();
+      seconds = (endTime - startTime) / 1000;
+      duration += seconds;
+    } else {
+      throw new Error("Stopwatch is already stopped!");
+    }
+  };
+
+  this.reset = function () {
+    startTime = 0;
+    endTime = 0;
+    running = false;
+    duration = 0;
+  };
+
+  Object.defineProperty(this, "duration", {
+    get: function () {
+      return duration;
+    },
+    set: function (value) {
+      if (!value.duration) {
+        throw new Error("Invalid duration");
+      }
+      duration = value;
+    },
+  });
+}
+
+const sw = new Stopwatch();
 
 function dblLinear(n) {
   let arr = [1];
@@ -129,9 +175,9 @@ function dblLinear(n) {
     tempArr.push(z);
   }
 
-  for (let i = 0; i < n ; i++) {
-    tempArr = []
-    tempArr.forEach(element => {
+  for (let i = 0; i < n; i++) {
+    tempArr = [];
+    tempArr.forEach((element) => {
       y = 2 * element + 1;
       z = 3 * element + 1;
       tempArr.push(y);
@@ -141,7 +187,7 @@ function dblLinear(n) {
     });
   }
 
-  // 
+  //
 
   console.log(arr);
   return arr[n];
