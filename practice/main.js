@@ -1,54 +1,76 @@
-// user = {
-//   name: "John",
-//   surname: "Smith",
-// };
+function marry(man, woman) {
+  woman.husband = man;
+  man.wife = woman;
 
-// user.name = "Pete";
-// console.log(user.name);
-// delete user.name;
-// console.log(user.name);
-
-// function isEmpty(obj) {
-//   for (key in obj) {
-//     return false;
-//   }
-//   return true;
-// }
-
-// let schedule = {};
-// console.log(isEmpty(schedule)); // true
-// schedule["8:30"] = "get up";
-// console.log(isEmpty(schedule)); // false
-
-// let salaries = {
-//   John: 100,
-//   Ann: 160,
-//   Pete: 130
-// }
-
-// function sumSalaries(salaries) {
-//   sum = 0
-//   for (key in salaries) {
-//     sum += salaries[key];
-//   }
-//   return sum;
-// }
-
-// console.log(sumSalaries(salaries));
-
-let menu = {
-  width: 200,
-  height: 300,
-  title: "My menu",
-};
-
-function multiplyNumeric(obj) {
-  for (let key in obj) {
-    if (!isNaN(obj[key])) {
-      obj[key] = obj[key] * 2;
-    }
-  }
-  return obj;
+  return {
+    father: man,
+    mother: woman,
+  };
 }
 
-console.log(multiplyNumeric(menu));
+let family = marry(
+  {
+    name: "John",
+  },
+  {
+    name: "Ann",
+  }
+);
+
+console.log(family);
+
+delete family.father;
+delete family.mother.husband;
+console.log(family);
+
+// we pass two objects as arguments -
+
+// {name: "John"} and {name: "Ann"}
+
+so,
+  (man = {
+    name: "John",
+  });
+and,
+  (woman = {
+    name: "Anna",
+  });
+
+here,
+  (woman = {
+    husband: man,
+  });
+
+and,
+  (man = {
+    wife: woman,
+  });
+
+// Replacing with the values, it turns,
+
+woman = {
+  husband: "John",
+};
+man = {
+  wife: "Anna",
+};
+
+// The two objects "man" and "woman" are getting interlinked [married]
+
+// Here a new object is being returned and assigned to family
+
+family = {
+  father: man,
+  mother: woman,
+};
+
+// which actually means,
+
+family = {
+  father: {
+    name: "John",
+  },
+  mother: {
+    name: "Anna",
+  },
+};
