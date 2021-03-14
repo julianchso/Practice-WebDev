@@ -1,76 +1,42 @@
-function marry(man, woman) {
-  woman.husband = man;
-  man.wife = woman;
+// let calculator = {
+//   // value1: null,
+//   // value2: null,
+//   read: function() {
+//     this.value1 = Number(prompt("Enter the first value", 0)),
+//     this.value2 = Number(prompt("Enter the second value", 0))
+//   },
 
-  return {
-    father: man,
-    mother: woman,
-  };
-}
+//   sum: function() {
+//     return this.value1 + this.value2;
+//   },
 
-let family = marry(
-  {
-    name: "John",
+//   mul: function() {
+//     return this.value1 * this.value2;
+//   }
+// };
+
+// calculator.read();
+// console.log(calculator.sum());
+// console.log(calculator.mul());
+
+const ladder = {
+  step: 0,
+  up: function () {
+    this.step++;
+    return this;
   },
-  {
-    name: "Ann",
-  }
-);
 
-console.log(family);
-
-delete family.father;
-delete family.mother.husband;
-console.log(family);
-
-// we pass two objects as arguments -
-
-// {name: "John"} and {name: "Ann"}
-
-so,
-  (man = {
-    name: "John",
-  });
-and,
-  (woman = {
-    name: "Anna",
-  });
-
-here,
-  (woman = {
-    husband: man,
-  });
-
-and,
-  (man = {
-    wife: woman,
-  });
-
-// Replacing with the values, it turns,
-
-woman = {
-  husband: "John",
-};
-man = {
-  wife: "Anna",
-};
-
-// The two objects "man" and "woman" are getting interlinked [married]
-
-// Here a new object is being returned and assigned to family
-
-family = {
-  father: man,
-  mother: woman,
-};
-
-// which actually means,
-
-family = {
-  father: {
-    name: "John",
+  down: function () {
+    this.step--;
+    return this;
   },
-  mother: {
-    name: "Anna",
+
+  showStep: function () {
+    // shows the current step
+    console.log(this.step);
+    return this;
   },
 };
+
+ladder.showStep();
+ladder.up().up().down().showStep();
