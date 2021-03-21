@@ -1,42 +1,36 @@
-// let calculator = {
-//   // value1: null,
-//   // value2: null,
-//   read: function() {
-//     this.value1 = Number(prompt("Enter the first value", 0)),
-//     this.value2 = Number(prompt("Enter the second value", 0))
-//   },
+// function Calculator() {
+//   this.read = function () {
+//     this.firstValue = Number(prompt("Please enter the first value"));
+//     this.secondValue = Number(prompt("Please enter the second value"));
+//   };
 
-//   sum: function() {
-//     return this.value1 + this.value2;
-//   },
+//   this.sum = function () {
+//     return this.firstValue + this.secondValue;
+//   };
 
-//   mul: function() {
-//     return this.value1 * this.value2;
-//   }
-// };
+//   this.mul = function () {
+//     return this.firstValue * this.secondValue;
+//   };
+// }
 
+// let calculator = new Calculator();
 // calculator.read();
-// console.log(calculator.sum());
-// console.log(calculator.mul());
 
-const ladder = {
-  step: 0,
-  up: function () {
-    this.step++;
-    return this;
-  },
+// console.log("Sum=" + calculator.sum());
+// console.log("Mul=" + calculator.mul());
 
-  down: function () {
-    this.step--;
-    return this;
-  },
+function Accumulator(startingValue) {
+  this.value = startingValue;
+  this.read = function () {
+    this.value += Number(prompt("Number?"));
+  };
 
-  showStep: function () {
-    // shows the current step
-    console.log(this.step);
-    return this;
-  },
-};
+  return this.value;
+}
 
-ladder.showStep();
-ladder.up().up().down().showStep();
+let accumulator = new Accumulator(1); // initial value 1
+
+accumulator.read(); // adds the user-entered value
+accumulator.read(); // adds the user-entered value
+
+console.log(accumulator.value);
