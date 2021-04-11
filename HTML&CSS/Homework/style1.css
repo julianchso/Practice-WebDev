@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+header,
+footer {
+  height: 20vh;
+  border: 1px solid #ddd;
+  clear: both;
+}
+
+section {
+  float: left;
+  height: 25vh;
+  width: 33.3333333333%;
+  border: 1px solid #ddd;
+}
+
+.row1 {
+  height: 25vh;
+}
+
+.row2 {
+  height: 35vh;
+  width: 50%;
+}
+
+@media screen and (max-width: 700px) {
+  section {
+    background-color: blue;
+  }
+}
