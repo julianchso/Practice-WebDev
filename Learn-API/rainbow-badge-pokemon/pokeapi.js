@@ -1,5 +1,6 @@
 //Example fetch using pokemonapi.co
 document.querySelector("button").addEventListener("click", getFetch);
+document.querySelector("button").addEventListener("click", clear);
 
 let pokeImg = [];
 let pokeType1 = [];
@@ -23,24 +24,34 @@ function getFetch() {
 
       pokeType1.push();
       document.querySelector("#pokeImg1").src = pokeImg[0];
-
+      document.querySelector("#type1").innerHTML = pokeType1;
+      
       // console.log(pokeImg)
       console.log(data);
       // console.log(data.types[0].type.name);
-
+      
       fetch(url2)
-        .then((res) => res.json())
-        .then((data) => {
-          pokeImg.push(data.sprites.front_default);
-          data.types.forEach((e) => {
-            pokeType2.push(e.type.name);
-          });
-          console.log(pokeType2);
-
-          document.querySelector("#pokeImg2").src = pokeImg[1];
+      .then((res) => res.json())
+      .then((data) => {
+        pokeImg.push(data.sprites.front_default);
+        data.types.forEach((e) => {
+          pokeType2.push(e.type.name);
+        });
+        console.log(pokeType2);
+        
+        document.querySelector("#pokeImg2").src = pokeImg[1];
+        document.querySelector("#type2").innerHTML = pokeType2;
         });
       // fetch image and type of pokemon
-
+        
       // fetch type to decide if it's super effective
-    });
+    })
+
+  
+}
+
+function clear() {
+  pokeImg = [];
+  pokeType1 = [];
+  pokeType2 = [];
 }
