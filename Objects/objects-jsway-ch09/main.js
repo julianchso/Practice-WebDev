@@ -119,6 +119,5 @@ BankAccounts.push(new BankAccount("Georges"));
 
 BankAccounts.forEach(account => {
   account.credit(1000)
+  console.log(account.describe())
 });
-
-console.log(BankAccounts)
