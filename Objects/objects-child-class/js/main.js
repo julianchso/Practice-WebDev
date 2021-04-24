@@ -71,6 +71,10 @@ class Cat extends Domesticated {
 }
 
 let simba = new Dog("Simba", "Shiba Inu");
-let peter = new Cat("Peter", "Egyptian")
+let peter = new Cat("Peter", "Egyptian");
 
-let farm = [simba, peter]
+let farm = [simba, peter];
+
+for (obj of farm) {
+  console.log(obj)
+}
