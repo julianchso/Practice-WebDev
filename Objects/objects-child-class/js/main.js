@@ -37,18 +37,40 @@ class Animal {
   }
 }
 
-class Dog extends Animal {
+class Domesticated extends Animal {
   constructor(name, breed) {
     super(name);
     this._breed = breed;
+  }
+}
+
+class Dog extends Domesticated {
+  constructor(name, breed) {
+    super(name, breed);
   }
   get breed() {
     return this._breed;
   }
   speak() {
-    super.speak()
-    console.log(`${this._name} barks.`)
+    super.speak();
+    console.log(`${this._name} barks.`);
   }
 }
 
-let simba = new Dog("Simba","Shiba Inu");
+class Cat extends Domesticated {
+  constructor(name, breed) {
+    super(name, breed);
+  }
+  get breed() {
+    return this._breed;
+  }
+  speak() {
+    super.speak();
+    console.log(`${this._name} meows.`);
+  }
+}
+
+let simba = new Dog("Simba", "Shiba Inu");
+let peter = new Cat("Peter", "Egyptian")
+
+let farm = [simba, peter]
