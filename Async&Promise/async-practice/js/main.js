@@ -13,18 +13,18 @@
 // houseThree()
 
 // Code 02
-function houseOne(){
-    console.log('Paper delivered to house 1')
+function houseOne() {
+  console.log("Paper delivered to house 1");
 }
-function houseTwo(){
-    setTimeout(() => console.log('Paper delivered to house 2'), 3000)
+function houseTwo() {
+  setTimeout(() => console.log("Paper delivered to house 2"), 3000);
 }
-function houseThree(){
-    console.log('Paper delivered to house 3')
+function houseThree() {
+  console.log("Paper delivered to house 3");
 }
-houseOne()
-houseTwo()
-houseThree()
+houseOne();
+houseTwo();
+houseThree();
 
 //Code 03
 // function houseOne(){
@@ -142,3 +142,42 @@ houseThree()
 // }
 // getACuteDogPhoto()
 
+// using then
+
+fetch("coffee.jpg")
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.blob();
+  })
+  .then((myBlob) => {
+    let objectURL = URL.createObjectURL(myBlob);
+    let image = document.createElement("img");
+    image.src = objectURL;
+    document.body.appendChild(image);
+  })
+  .catch((e) => {
+    console.log(
+      "There has been a problem with your fetch operation: " + e.message
+    );
+  });
+
+// using async await
+
+async function myFetch() {
+  let response = await fetch("coffee.jpg");
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return await response.blob();
+}
+
+myFetch()
+  .then((blob) => {
+    let objectURL = URL.createObjectURL(blob);
+    let image = document.createElement("img");
+    image.src = objectURL;
+    document.body.appendChild(image);
+  })
+  .catch((e) => console.log(e));
