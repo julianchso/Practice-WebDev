@@ -12,19 +12,19 @@
 // houseTwo()
 // houseThree()
 
-// Code 02
-function houseOne() {
-  console.log("Paper delivered to house 1");
-}
-function houseTwo() {
-  setTimeout(() => console.log("Paper delivered to house 2"), 3000);
-}
-function houseThree() {
-  console.log("Paper delivered to house 3");
-}
-houseOne();
-houseTwo();
-houseThree();
+// // Code 02
+// function houseOne() {
+//   console.log("Paper delivered to house 1");
+// }
+// function houseTwo() {
+//   setTimeout(() => console.log("Paper delivered to house 2"), 3000);
+// }
+// function houseThree() {
+//   console.log("Paper delivered to house 3");
+// }
+// houseOne();
+// houseTwo();
+// houseThree();
 
 //Code 03
 // function houseOne(){
@@ -142,42 +142,109 @@ houseThree();
 // }
 // getACuteDogPhoto()
 
-// using then
+// // using then
 
-fetch("coffee.jpg")
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.blob();
-  })
-  .then((myBlob) => {
-    let objectURL = URL.createObjectURL(myBlob);
-    let image = document.createElement("img");
-    image.src = objectURL;
-    document.body.appendChild(image);
-  })
-  .catch((e) => {
-    console.log(
-      "There has been a problem with your fetch operation: " + e.message
-    );
-  });
+// fetch("coffee.jpg")
+//   .then((response) => {
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+//     return response.blob();
+//   })
+//   .then((myBlob) => {
+//     let objectURL = URL.createObjectURL(myBlob);
+//     let image = document.createElement("img");
+//     image.src = objectURL;
+//     document.body.appendChild(image);
+//   })
+//   .catch((e) => {
+//     console.log(
+//       "There has been a problem with your fetch operation: " + e.message
+//     );
+//   });
 
-// using async await
+// // using async await
 
-async function myFetch() {
-  let response = await fetch("coffee.jpg");
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+// async function myFetch() {
+//   let response = await fetch("coffee.jpg");
+//   if (!response.ok) {
+//     throw new Error(`HTTP error! status: ${response.status}`);
+//   }
+//   return await response.blob();
+// }
+
+// myFetch()
+//   .then((blob) => {
+//     let objectURL = URL.createObjectURL(blob);
+//     let image = document.createElement("img");
+//     image.src = objectURL;
+//     document.body.appendChild(image);
+//   })
+//   .catch((e) => console.log(e));
+
+// L1
+console.log("Synchronous 1");
+
+// L2
+setTimeout((_) => console.log(`Timeout 2`), 0);
+
+// L3
+Promise.resolve().then((_) => console.log("Promise"));
+
+// L4
+console.log("Synchronous 4");
+
+const makeSmoothie2 = () => {
+  let a;
+  return getFruits("pineapple")
+    .then((v) => {
+      a = v;
+      return getFruit("strawberry");
+    })
+    .then((v) => [v, a]);
+};
+
+const makeSmoothie = async () => {
+  const a = await getFruit("pineapple");
+  const b = await getFruit("strawberry");
+
+  return [a, b];
+};
+
+let p = new Promise((resolve, reject) => {
+  let a = 1 + 1;
+  if (a == 2) {
+    resolve("Success");
+  } else {
+    reject("Failed");
   }
-  return await response.blob();
+});
+
+p.then((message) => {
+  console.log("This is in the then " + message);
+}).catch((message) => {
+  console.log("This is in the catch " + message);
+});
+
+const userLeft = false;
+const userWatchingCatMeme = true;
+
+function watchTutorialPromise() {
+  return new Promise((resolve, reject) => {
+    if (userLeft) {
+      reject("User Left :(");
+    } else if (userWatchingCatMeme) {
+      reject("WebDevSimplified < Cat");
+    } else {
+      resolve("Thumbs up and subscribe");
+    }
+  });
 }
 
-myFetch()
-  .then((blob) => {
-    let objectURL = URL.createObjectURL(blob);
-    let image = document.createElement("img");
-    image.src = objectURL;
-    document.body.appendChild(image);
+watchTutorialPromise()
+  .then((message) => {
+    console.log("Success: " + message);
   })
-  .catch((e) => console.log(e));
+  .catch((error) => {
+    console.log(`${error.name} ${error.message}`);
+  });
