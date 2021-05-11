@@ -182,69 +182,35 @@
 //   })
 //   .catch((e) => console.log(e));
 
-// L1
-console.log("Synchronous 1");
+const posts = [
+  { title: 'Post One', body: 'This is post one'},
+  { title: 'Post Two', body: 'This is post two'}
+]
 
-// L2
-setTimeout((_) => console.log(`Timeout 2`), 0);
+function getPosts() {
+  setTimeout(() => {
+    let output = "";
+    posts.forEach((post, index) => {
+      output += `<li>${post.title}</li>`;
+    });
+    document.body.innerHTML = output;
+  }, 1000);
+}
 
-// L3
-Promise.resolve().then((_) => console.log("Promise"));
-
-// L4
-console.log("Synchronous 4");
-
-const makeSmoothie2 = () => {
-  let a;
-  return getFruits("pineapple")
-    .then((v) => {
-      a = v;
-      return getFruit("strawberry");
-    })
-    .then((v) => [v, a]);
-};
-
-const makeSmoothie = async () => {
-  const a = await getFruit("pineapple");
-  const b = await getFruit("strawberry");
-
-  return [a, b];
-};
-
-let p = new Promise((resolve, reject) => {
-  let a = 1 + 1;
-  if (a == 2) {
-    resolve("Success");
-  } else {
-    reject("Failed");
-  }
-});
-
-p.then((message) => {
-  console.log("This is in the then " + message);
-}).catch((message) => {
-  console.log("This is in the catch " + message);
-});
-
-const userLeft = false;
-const userWatchingCatMeme = true;
-
-function watchTutorialPromise() {
+function createPost(post) {
   return new Promise((resolve, reject) => {
-    if (userLeft) {
-      reject("User Left :(");
-    } else if (userWatchingCatMeme) {
-      reject("WebDevSimplified < Cat");
-    } else {
-      resolve("Thumbs up and subscribe");
-    }
+    setTimeout(() => {
+      posts.push(post);
+
+      const error = false;
+
+      if (!error) {
+        resolve();
+      } else {
+        reject(`Error: Something went wrong`);
+      }
+    }, 2000);
   });
 }
 
-watchTutorialPromise()
-  .then((message) => {
-    console.log("Success: " + message);
-  })
-  .catch((error) => {
-    console.log(`${error.name} ${error.message}`);
-  });
+createPost({ title: "Post Three", body: "This is post three" }).then(getPosts);
