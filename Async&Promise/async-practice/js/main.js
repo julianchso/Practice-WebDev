@@ -165,66 +165,63 @@
 
 // // using async await
 
-// async function myFetch() {
-//   let response = await fetch("coffee.jpg");
-//   if (!response.ok) {
-//     throw new Error(`HTTP error! status: ${response.status}`);
-//   }
-//   return await response.blob();
-// }
+// console.log('Synchronous 1');
 
-// myFetch()
-//   .then((blob) => {
-//     let objectURL = URL.createObjectURL(blob);
-//     let image = document.createElement("img");
-//     image.src = objectURL;
-//     document.body.appendChild(image);
-//   })
-//   .catch((e) => console.log(e));
+// setTimeout(_ => console.log(`Timeout 2`), 0);
 
-const posts = [
-  { title: "Post One", body: "This is post one" },
-  { title: "Post Two", body: "This is post two" },
-];
+// Promise.resolve().then(_ => console.log('Promise'));
 
-function getPosts() {
-  setTimeout(() => {
-    let output = "";
-    posts.forEach((post, index) => {
-      output += `<li>${post.title}</li>`;
-    });
-    document.body.innerHTML = output;
-  }, 1000);
-}
+// console.log('Synchronous 4 ');
 
-function createPost(post) {
+// const promise = fetch("https://jsonplaceholder.typicode.com/todos/1");
+
+// promise
+//   .then((res) => res.json())
+//   .then((user) => console.log(":D", user.title))
+//   .catch((err) => console.error(err));
+
+// console.log("Synchronous");
+
+const tick = Date.now();
+const log = (v) => console.log(`${v} \n Elapsed: ${Date.now() - tick}`);
+
+const codeBlocker = () => {
+  let i = 0;
+  while (i < 1000000000) {
+    i++;
+  }
+
+  return " ";
+};
+
+// log("Synchronous 1");
+// log("while loop", codeBlocker());
+// log("Synchronous 2");
+
+const codeBlocker2 = () => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      posts.push(post);
-
-      const error = false;
-
-      if (!error) {
-        resolve();
-      } else {
-        reject(`Error: Something went wrong`);
-      }
-    }, 2000);
+    let i = 0;
+    while (i < 1000000000) {
+      i++;
+    }
+    resolve("billion loops done");
   });
-}
+};
 
-// createPost({ title: "Post Three", body: "This is post three" })
-//   .then(getPosts)
-//   .catch(message => {console.log(message)});
+log("Synchronous 1");
+codeBlocker2().then(log);
+log("Synchronous 2");
 
-// Promise.all
+const codeBlocker3 = () => {
+  return Promise.resolve().then((v) => {
+    let i = 0;
+    while (i < 1000000000) {
+      i++;
+    }
+    return "billion loops done";
+  });
+};
 
-const promise1 = Promise.resolve("Hello World");
-const promise2 = 10;
-const promise3 = new Promise((resolve, reject) => {
-  setTimeout(resolve, 2000, "Goodbye");
-});
-
-Promise.all([promise1, promise2, promise3]).then((values) => {
-  console.log(values);
-});
+// log("Synchronous 1");
+// codeBlocker3().then(log);
+// log("Synchronous 2");
