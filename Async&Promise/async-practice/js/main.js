@@ -194,34 +194,79 @@ const codeBlocker = () => {
   return " ";
 };
 
-// log("Synchronous 1");
-// log("while loop", codeBlocker());
-// log("Synchronous 2");
+// // log("Synchronous 1");
+// // log("while loop", codeBlocker());
+// // log("Synchronous 2");
 
-const codeBlocker2 = () => {
-  return new Promise((resolve, reject) => {
-    let i = 0;
-    while (i < 1000000000) {
-      i++;
-    }
-    resolve("billion loops done");
-  });
-};
+// const codeBlocker2 = () => {
+//   return new Promise((resolve, reject) => {
+//     let i = 0;
+//     while (i < 1000000000) {
+//       i++;
+//     }
+//     resolve("billion loops done");
+//   });
+// };
 
-log("Synchronous 1");
-codeBlocker2().then(log);
-log("Synchronous 2");
+// // log("Synchronous 1");
+// // codeBlocker2().then(log);
+// // log("Synchronous 2");
 
-const codeBlocker3 = () => {
-  return Promise.resolve().then((v) => {
-    let i = 0;
-    while (i < 1000000000) {
-      i++;
-    }
-    return "billion loops done";
-  });
-};
+// const codeBlocker3 = () => {
+//   return Promise.resolve().then((v) => {
+//     let i = 0;
+//     while (i < 1000000000) {
+//       i++;
+//     }
+//     return "billion loops done";
+//   });
+// };
 
 // log("Synchronous 1");
 // codeBlocker3().then(log);
 // log("Synchronous 2");
+
+function promiseHell() {
+  let userId;
+  let postId;
+  let db;
+
+  db.then((u) => {
+    return db.user().then((v) => v.json());
+  })
+    .then((u) => {
+      userId = u.id;
+      return db.post(userId).then((v) => v.json());
+    })
+    .then((p) => {
+      postId = p.id;
+      return db.comments(postId).then((v) => v.json());
+    });
+}
+
+function delay(n) {
+  return setTimeout("", n);
+}
+
+const getFruit = async (name) => {
+  const fruits = {
+    pineapple: "pineapple",
+    peach: "peach",
+    strawberry: "strawberry",
+  };
+  await delay(1000);
+
+  return fruits[name];
+};
+
+getFruit("peach").then(console.log);
+
+
+const makeSmoothie = async() => {
+  const a = await getFruit('pineapple');
+  const b = await getFruit('strawberry');
+
+  return [a, b];
+}
+
+makeSmoothie().then(log);
