@@ -1,92 +1,63 @@
-// let promise = new Promise(function (resolve, reject) {
-//   let x = 0;
-//   if (x == 1) {
-//     resolve("done");
+// // Answer
+
+// class HttpError extends Error {
+//   constructor(response) {
+//     super(`${response.status} for ${response.url}`);
+//     this.name = "HttpError";
+//     this.response = response;
+//   }
+// }
+
+// async function loadJson(url) {
+//   let response = await fetch(url);
+
+//   if (response.status == 200) {
+//     return response.json();
 //   } else {
-//     reject(new Error("..."));
+//     throw new HttpError(response);
 //   }
-// });
-
-// console.log(promise);
-
-// let promise = new Promise(function(resolve, reject) {
-//   try {
-//     setTimeout(() => {
-//       reject(new Error("Whoops"))
-//     }, 1000);
-//   }
-//   catch(err) {
-//     return `Error: ${err}`
-//   }
-// })
-
-// promise.then(
-//   result => console.log(result),
-//   error => console.log(error)
-// );
-
-// let promise = new Promise ((resolve, reject) {
-//   setTimeout(() => {
-//     resolve("result")
-//   }, 2000)
-//   .finally(() => cono)
-// })
-
-// let promise = new Promise((resolve, reject) => {
-//   setTimeout(() => {
-//     resolve("result")
-//   }, 2000)
-// })
-//   .finally(() => console.log("Promise ready"))
-//   .catch(err => console.log(err));
-
-// console.log(promise)
-
-// // callback function
-
-// function loadScript(src, callback) {
-//   let script = document.createElement('script');
-//   script.src = src;
-
-//   script.onload = () => callback(null, script);
-//   script.onerror = () => callback(new Error(`Script load error: ${src}`));
-
-//   document.head.append(script);
 // }
 
-// // promises
+// // Ask for a user name until github returns a valid user
+// async function demoGithubUser() {
+//   let user;
 
-// function loadScript(src) {
-//   return new Promise(function (resolve, reject) {
-//     let script = document.createElement("script");
-//     script.src = src;
+//   while (true) {
+//     let name = prompt("Enter a name?", "iliakan");
 
-//     script.onload = () => resolve(script);
-//     script.onerror = () => reject(new Error(`Script load error for ${src}`));
-
-//     document.head.append(script);
-//   });
+//     try {
+//       user = await loadJson(`https://api.github.com/users/${name}`);
+//       break;
+//     } catch {
+//       if (err instanceof HttpError && err.response.status == 404) {
+//         alert("No such user, please reenter.");
+//       } else {
+//         throw err;
+//       }
+//     }
+//     alert(`Full name: ${user.name}.`);
+//     return user;
+//   }
 // }
 
-// let promise = loadScript(
-//   "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"
-// );
+// demoGithubUser();
 
-// promise.then(
-//   (script) => console.log(`${script.src} is loaded!`),
-//   (error) => console.log(`Error: ${error.message}`)
-// );
+// Call async from non-async
 
-// promise.then((script) => console.log("Another handler..."));
+async function wait() {
+  await new Promise(resolve => setTimeout(resolve, 1000));
 
-
-function delay(ms) {
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve("result")
-    }, ms);
-  })
+  return 10;
 }
 
-delay(3000).then(() => alert('runs after 3 seconds'));
+function f() {
 
+  wait()
+    .then(result => console.log(result))
+
+  // ...what should you write here?
+  // we need to call async wait() and wait to get 10
+  // remember, we can't use "await"
+}
+
+console.log(f());
