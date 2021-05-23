@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
+const myUrl = require("url");
+const http = require('http')
 
 // fs.mkdir(path.join(__dirname, "/test"), {}, (err) => {
 //   if (err) throw err;
@@ -40,5 +42,13 @@ const os = require("os");
 
 // console.log(os.arch());
 // console.log(os.constants);
-console.log(os.cpus());
+// console.log(os.cpus());
+// console.log(os.homedir());
+// console.log(os.uptime());
+
+http.createServer((req, res) => {
+  res.write('Hello World');
+  res.end();
+})
+.listen(5000, () => console.log('Server running...'))
 
