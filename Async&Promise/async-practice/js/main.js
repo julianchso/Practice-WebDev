@@ -109,64 +109,78 @@
 
 // Code 07
 // Makes asynchronous code look synchronous
-function houseOne() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve("Paper delivered to house 1");
-    }, 1000);
-  });
-}
-function houseTwo() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve("Paper delivered to house 2");
-    }, 1000);
-  });
-}
-function houseThree() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve("Paper delivered to house 3");
-    }, 1000);
-  });
-}
+// function houseOne() {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve("Paper delivered to house 1");
+//     }, 1000);
+//   });
+// }
+// function houseTwo() {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve("Paper delivered to house 2");
+//     }, 1000);
+//   });
+// }
+// function houseThree() {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve("Paper delivered to house 3");
+//     }, 1000);
+//   });
+// }
 
-async function getPaid() {
-  const houseOneWait = await houseOne();
-  const houseTwoWait = await houseTwo();
-  const houseThreeWait = await houseThree();
-  console.log(houseOneWait);
-  console.log(houseTwoWait);
-  console.log(houseThreeWait);
-}
+// async function getPaid() {
+//   const houseOneWait = await houseOne();
+//   const houseTwoWait = await houseTwo();
+//   const houseThreeWait = await houseThree();
+//   console.log(houseOneWait);
+//   console.log(houseTwoWait);
+//   console.log(houseThreeWait);
+// }
 
-getPaid();
+// getPaid();
 
 // Code 08
-// async function getACuteDogPhoto() {
-//   const res = await fetch("https://dog.ceo/api/breeds/image/random");
-//   const data = await res.json();
-//   console.log(data);
-// }
-// getACuteDogPhoto();
+async function getACuteDogPhotoAsync() {
+  const res = await fetch("https://dog.ceo/api/breeds/image/random");
+  const data = await res.json();
+  console.log(data);
+}
 
-// // using then
+getACuteDogPhotoAsync();
 
-// fetch("coffee.jpg")
-//   .then((response) => {
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! status: ${response.status}`);
-//     }
-//     return response.blob();
-//   })
-//   .then((myBlob) => {
-//     let objectURL = URL.createObjectURL(myBlob);
-//     let image = document.createElement("img");
-//     image.src = objectURL;
-//     document.body.appendChild(image);
-//   })
-//   .catch((e) => {
-//     console.log(
-//       "There has been a problem with your fetch operation: " + e.message
-//     );
-//   });
+function getACuteDogPhotoThen() {
+  const url = "https://dog.ceo/api/breeds/image/random";
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      document.querySelector("img").src = data.message;
+    })
+    .catch((err) => {
+      console.log(`error ${err}`);
+    });
+}
+
+// using then
+
+fetch("coffee.jpg")
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.blob();
+  })
+  .then((myBlob) => {
+    let objectURL = URL.createObjectURL(myBlob);
+    let image = document.createElement("img");
+    image.src = objectURL;
+    document.body.appendChild(image);
+  })
+  .catch((e) => {
+    console.log(
+      "There has been a problem with your fetch operation: " + e.message
+    );
+  });
