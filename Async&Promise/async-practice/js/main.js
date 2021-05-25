@@ -27,20 +27,20 @@
 // houseThree();
 
 // Code 03
-// function houseOne() {
-//   console.log("Paper delivered to house 1");
-// }
-// function houseTwo(callback) {
-//   setTimeout(() => {
-//     console.log("Paper delivered to house 2");
-//     callback();
-//   }, 3000);
-// }
-// function houseThree() {
-//   console.log("Paper delivered to house 3");
-// }
-// houseOne();
-// houseTwo(houseThree);
+function houseOne() {
+  console.log("Paper delivered to house 1");
+}
+function houseTwo(callback) {
+  setTimeout(() => {
+    console.log("Paper delivered to house 2");
+    callback();
+  }, 3000);
+}
+function houseThree() {
+  console.log("Paper delivered to house 3");
+}
+houseOne();
+houseTwo(houseThree);
 
 // Code 04
 // function houseOne() {
@@ -77,7 +77,7 @@
 //   }
 // })
 
-// Code 06
+// // Code 06
 // function houseOne() {
 //   return new Promise((resolve, reject) => {
 //     setTimeout(() => {
@@ -107,8 +107,8 @@
 //   .then((data) => console.log(data))
 //   .catch((err) => console.log(err));
 
-// Code 07
-// Makes asynchronous code look synchronous
+// // Code 07
+// // Makes asynchronous code look synchronous
 // function houseOne() {
 //   return new Promise((resolve, reject) => {
 //     setTimeout(() => {
@@ -144,43 +144,28 @@
 
 // Code 08
 async function getACuteDogPhotoAsync() {
-  const res = await fetch("https://dog.ceo/api/breeds/image/random");
-  const data = await res.json();
-  console.log(data);
+  try {
+    const res = await fetch("https://dog.ceo/api/breeds/image/random");
+    const data = await res.json();
+    console.log(data);
+  }
+  catch(err) {
+    console.log(err)
+  }
 }
 
 getACuteDogPhotoAsync();
 
-function getACuteDogPhotoThen() {
-  const url = "https://dog.ceo/api/breeds/image/random";
-  fetch(url)
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      document.querySelector("img").src = data.message;
-    })
-    .catch((err) => {
-      console.log(`error ${err}`);
-    });
-}
+// function getACuteDogPhotoThen() {
+//   const url = "https://dog.ceo/api/breeds/image/random";
+//   fetch(url)
+//     .then((res) => res.json())
+//     .then((data) => {
+//       console.log(data);
+//       document.querySelector("img").src = data.message;
+//     })
+//     .catch((err) => {
+//       console.log(`error ${err}`);
+//     });
+// }
 
-// using then
-
-fetch("coffee.jpg")
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.blob();
-  })
-  .then((myBlob) => {
-    let objectURL = URL.createObjectURL(myBlob);
-    let image = document.createElement("img");
-    image.src = objectURL;
-    document.body.appendChild(image);
-  })
-  .catch((e) => {
-    console.log(
-      "There has been a problem with your fetch operation: " + e.message
-    );
-  });

@@ -1,54 +1,47 @@
-const fs = require("fs");
-const path = require("path");
-const os = require("os");
-const myUrl = require("url");
-const http = require('http')
+fetch("coffee.jpg")
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.blob();
+  })
+  .then((myBlob) => {
+    let objectURL = URL.createObjectURL(myBlob);
+    let image = document.createElement("img");
+    image.src = objectURL;
+    document.body.appendChild(image);
+  })
+  .catch((e) => {
+    console.log(
+      "There has been a problem with your fetch operation: " + e.message
+    );
+  });
 
-// fs.mkdir(path.join(__dirname, "/test"), {}, (err) => {
-//   if (err) throw err;
-//   console.log("Folder created...");
-// });
+async function myFetch() {
+  let response = await fetch("coffee.jpg");
 
-// fs.writeFile(
-//   path.join(__dirname, "/test", "hello.txt"),
-//   "Hello world",
-//   (err) => {
-//     if (err) throw err;
-//     console.log("File created...");
-//   }
-// );
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
 
-// fs.writeFile(
-//   path.join(__dirname, "/test", "hello.txt"),
-//   "I love Node.js",
-//   (err) => {
-//     if (err) throw err;
-//     console.log("File written to...");
-//     fs.appendFile(
-//       path.join(__dirname, "/test", "hello.txt"),
-//       " Hello world",
-//       (err) => {
-//         if (err) throw err;
-//         // console.log("File written to...");
-//       }
-//     );
-//   }
-// );
+  let myBlob = await response.blob();
 
-// fs.readFile(path.join(__dirname, "/test", "hello.txt"), "utf8", (err, data) => {
-//   if (err) throw err;
-//   console.log(data);
-// });
+  let objectURL = URL.createObjectURL(myBlob);
+  let image = document.createElement("img");
+  image.src = objectURL;
+  document.body.appendChild(image);
+}
 
-// console.log(os.arch());
-// console.log(os.constants);
-// console.log(os.cpus());
-// console.log(os.homedir());
-// console.log(os.uptime());
+myFetch().catch((e) => {
+  console.log(
+    "There has been a problem with your fetch oepration: " + e.message
+  );
+});
 
-http.createServer((req, res) => {
-  res.write('Hello World');
-  res.end();
-})
-.listen(5000, () => console.log('Server running...'))
+// Learn: JS All Lies
+// Learn: Call Stack / Task Queue
+// Learn: Event Loop
+// Learn: Node
+// Homework - Coin Flip & RPS
 
+// The event loop monitors the callback queue and the job queue and decides what needs to be pushed to the call stack.
