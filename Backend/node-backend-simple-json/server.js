@@ -15,7 +15,6 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, { "Content-Type": "text/html" });
         res.write(data);
         res.end();
-        
       });
       break;
     case "/otherpage":
@@ -67,6 +66,15 @@ const server = http.createServer((req, res) => {
       });
       break;
     default:
+      (err, data) => {
+        if (err) {
+          console.log("Something went wrong...");
+          console.dir(err);
+          return;
+        }
+        res.write(data);
+        res.end();
+      };
     // figlet("404!!", function (err, data) {
     //   if (err) {
     //     console.log("Something went wrong...");
