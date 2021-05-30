@@ -3,7 +3,7 @@ const fs = require("fs");
 const url = require("url");
 const querystring = require("querystring");
 const path = require("path");
-const eventEmitter = require("events");
+const EventEmitter = require("events");
 
 const server = http.createServer((req, res) => {
   // if (req.url === "/") {
@@ -68,28 +68,27 @@ const server = http.createServer((req, res) => {
       }
     } else {
       // Success
-      res.writeHead(200, { "Content-Type": contentType });
-
-      res.write(`<h1>${result}</h1>`);
-      res.end(content, "utf8");
+      fs.readFile(path.join(__dirname, "public", "index.html"), (err, content) => {
+        console.log("Success!");
+        res.writeHead(200, { "Content-Type": contentType });
+        console.log(contentType);
+        res.write(`<h1>${flipACoin()}</h1>`);
+        res.end(content);
+      });
     }
   });
 });
 
-function flipACoin() {
+const flipACoin = () => {
   let flip = Math.random();
-  let result;
   if (flip > 0.5) {
-    result = "heads";
+    console.log(flip);
+    return "heads";
   } else {
-    result = "tails";
+    console.log(flip);
+    return "tails";
   }
-}
-
-class MyEmitter extends EventEmitter {
-  
-}
-
+};
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
