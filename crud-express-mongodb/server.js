@@ -28,13 +28,29 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     console.log("Connected to Database");
     const db = client.db("star-wars-quotes");
     const quotesCollection = db.collection("quotes");
+
+    // app.use(/* ... */);
+
+    app.get("/", (req, res) => {
+      const cursor = db
+        .collection("quotes")
+        .find()
+        .toArray()
+        .then((results) => {
+          console.log(results);
+        })
+        .catch((err) => console.log(err));
+      console.log(cursor);
+    });
+
     app.post("/quotes", (req, res) => {
       quotesCollection
         .insertOne(req.body)
         .then((result) => {
-          console.log(result);
+          res.redirect("/");
         })
         .catch((err) => console.log(err));
     });
+    app.listen(/* ... */);
   })
   .catch((err) => console.log(err));
