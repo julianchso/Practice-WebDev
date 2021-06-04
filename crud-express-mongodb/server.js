@@ -1,22 +1,40 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const MongoClient = require("mongodb").MongoClient;
 
 PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve and index.html file that is found 
+// Serve and index.html file that is found
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
 // post item from action in form in index.html
-app.post("/quotes", (req, res) => {
-  console.log(req.body);
-});
 
 // start server
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
+
+const username = "Julian";
+const password = "SBrqcfq93ebTnN0M";
+const connectionString = `mongodb+srv://${username}:${password}@cluster0.7k2ww.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+
+MongoClient.connect(connectionString, { useUnifiedTopology: true })
+  .then((client) => {
+    console.log("Connected to Database");
+    const db = client.db("star-wars-quotes");
+    const quotesCollection = db.collection("quotes");
+    app.post("/quotes", (req, res) => {
+      quotesCollection
+        .insertOne(req.body)
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => console.log(err));
+    });
+  })
+  .catch((err) => console.log(err));
