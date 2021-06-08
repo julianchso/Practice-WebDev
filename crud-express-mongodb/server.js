@@ -5,20 +5,6 @@ const MongoClient = require("mongodb").MongoClient;
 
 PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Serve and index.html file that is found
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
-// post item from action in form in index.html
-
-// start server
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
-});
-
 const username = "Julian";
 const password = "SBrqcfq93ebTnN0M";
 const connectionString = `mongodb+srv://${username}:${password}@cluster0.7k2ww.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -29,21 +15,15 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     const db = client.db("star-wars-quotes");
     const quotesCollection = db.collection("quotes");
 
+    app.set("view engine", "ejs");
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    app.use(express.static("Public"));
+
     // app.use(/* ... */);
 
-    app.get("/", (req, res) => {
-      const cursor = db
-        .collection("quotes")
-        .find()
-        .toArray()
-        .then((results) => {
-          console.log(results);
-        })
-        .catch((err) => console.log(err));
-      console.log(cursor);
-    });
-
     app.post("/quotes", (req, res) => {
+      console.log(req.body);
       quotesCollection
         .insertOne(req.body)
         .then((result) => {
@@ -51,6 +31,52 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         })
         .catch((err) => console.log(err));
     });
-    app.listen(/* ... */);
+
+    app.get("/", (req, res) => {
+      db.collection("quotes")
+        .find()
+        .toArray()
+        .then((results) => {
+          res.render("index.ejs", { quotes: results });
+        })
+        .catch((err) => console.log(err));
+    });
+
+    app.put("/quotes", (req, res) => {
+      quotesCollection
+        .findOneAndUpdate(
+          { name: "Yoda" },
+          {
+            $set: {
+              name: req.body.name,
+              quote: req.body.quote,
+            },
+          },
+          {
+            upsert: true,
+          }
+        )
+        .then((result) => {
+          res.json("Success");
+        })
+        .catch((err) => console.log(err));
+    });
+
+    app.delete("/quotes", (req, res) => {
+      quotesCollection
+        .deleteOne({ name: req.body.name })
+        .then((result) => {
+          if (result.deletedCount === 0) {
+            return res.json("No quote to delete");
+          }
+          res.json("Deleted Darth Vader quote");
+        })
+        .catch((err) => console.log(err));
+    });
+
+    // start server
+    app.listen(PORT, () => {
+      console.log(`Listening on port ${PORT}`);
+    });
   })
   .catch((err) => console.log(err));
