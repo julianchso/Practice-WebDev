@@ -20,8 +20,6 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     app.use(bodyParser.json());
     app.use(express.static("Public"));
 
-    // app.use(/* ... */);
-
     app.post("/quotes", (req, res) => {
       console.log(req.body);
       quotesCollection
