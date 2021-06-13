@@ -1,23 +1,47 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { request } = require("express");
 const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 
 let players = {
-  "David Beckham": {
+  "david beckham": {
     age: 46,
     birthName: "David Robert Joseph Beckham",
     birthLocation: "London, England",
   },
-  "Zinedine Zidane": {
+  "zinedine zidane": {
     age: 48,
     birthName: "Zinedine Yazid Zidane",
     birthLocation: "Marseille, France",
   },
-  Unknown: {
+  "thierry henry": {
+    age: 43,
+    birthName: "Thierry Daniel Henry",
+    birthPlace: "Les Ulis, France",
+  },
+  "dennis bergkamp": {
+    age: 52,
+    birthName: "Dennis Nicolaas Maria Bergkamp",
+    birthPlace: "Amsterdam Netherlands",
+  },
+  "patrick vieira": {
+    age: 44,
+    birthName: "Patrick Vieira",
+    birthPlace: "Dakar, Senegal",
+  },
+  "robert pires": {
+    age: 47,
+    birthName: "Robert Emmanuel Pires",
+    birthPlace: "Reims, France",
+  },
+  unknown: {
+    age: "Unknown",
+    birthName: "Unknown",
+    birthPlace: "Unknown",
+  },
+  unknown: {
     age: "Unknown",
     birthName: "Unknown",
     birthLocation: "Unknown",
@@ -29,9 +53,13 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/players/:soccerPlayerName", (req, res) => {
-  const PlayerName = request.params.soccerPlayerName
-  console.log(PlayerName)
-  res.json(players[PlayerName]);
+  const playerName = req.params.soccerPlayerName.toLowerCase();
+  if (players[playerName]) {
+    res.json(players[playerName]);
+  } else {
+    console.log(players[playerName]);
+    res.json(players["unknown"]);
+  }
 });
 
 app.listen(PORT, () => {
