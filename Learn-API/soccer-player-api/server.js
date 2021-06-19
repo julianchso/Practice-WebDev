@@ -52,8 +52,13 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
+app.get("/api/players", (req, res) => {
+  res.json(players);
+});
+
 app.get("/api/players/:soccerPlayerName", (req, res) => {
   const playerName = req.params.soccerPlayerName.toLowerCase();
+
   if (players[playerName]) {
     res.json(players[playerName]);
   } else {
