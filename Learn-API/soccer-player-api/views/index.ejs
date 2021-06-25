@@ -10,11 +10,23 @@
   </head>
   <body>
     <h1>The Beautiful Game</h1>
-    <form action ="/players" method="POST">
-      <input type="text" placeholder="name" name="name">
-      <input type="text" placeholder="club" name="club">
+    <form action="/players" method="POST">
+      <input type="text" placeholder="name" name="name" />
+      <input type="text" placeholder="club" name="club" />
       <button type="submit">Submit</button>
     </form>
+
+    <h2>Players</h2>
+
+    <ul class="players">
+      <% for (var i = 0; i < players.length; i++) {%>
+      <li class="players">
+        <span><%= players[i].name %></span>:
+        <span><%= players[i].club %></span>
+      </li>
+      <% } %>
+    </ul>
+    
     <script type="text/javascript" src="js/main.js"></script>
   </body>
 </html>

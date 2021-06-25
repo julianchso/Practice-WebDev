@@ -1,72 +1,64 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
+const MongoClient = require("mongodb").MongoClient;
+
 const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 
-let players = {
-  "david beckham": {
-    age: 46,
-    birthName: "David Robert Joseph Beckham",
-    birthLocation: "London, England",
-  },
-  "zinedine zidane": {
-    age: 48,
-    birthName: "Zinedine Yazid Zidane",
-    birthLocation: "Marseille, France",
-  },
-  "thierry henry": {
-    age: 43,
-    birthName: "Thierry Daniel Henry",
-    birthPlace: "Les Ulis, France",
-  },
-  "dennis bergkamp": {
-    age: 52,
-    birthName: "Dennis Nicolaas Maria Bergkamp",
-    birthPlace: "Amsterdam Netherlands",
-  },
-  "patrick vieira": {
-    age: 44,
-    birthName: "Patrick Vieira",
-    birthPlace: "Dakar, Senegal",
-  },
-  "robert pires": {
-    age: 47,
-    birthName: "Robert Emmanuel Pires",
-    birthPlace: "Reims, France",
-  },
-  unknown: {
-    age: "Unknown",
-    birthName: "Unknown",
-    birthPlace: "Unknown",
-  },
-  unknown: {
-    age: "Unknown",
-    birthName: "Unknown",
-    birthLocation: "Unknown",
-  },
-};
+const username = "Julian";
+const password = "SBrqcfq93ebTnN0M";
+const connectionString = `mongodb+srv://${username}:${password}@cluster0.7k2ww.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
+MongoClient.connect(connectionString, { useUnifiedTopology: true })
+  .then((client) => {
+    console.log("Connected to database");
+    const db = client.db("soccer-players");
+    const playerCollection = db.collection("players");
 
-app.get("/api/players", (req, res) => {
-  res.json(players);
-});
+    app.set("view engine", "ejs");
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    app.use(express.static("public"));
 
-app.get("/api/players/:soccerPlayerName", (req, res) => {
-  const playerName = req.params.soccerPlayerName.toLowerCase();
+    app.get("/", (req, res) => {
+      db.collection("players")
+        .find()
+        .toArray()
+        .then((result) => {
+          res.render('index.ejs', {players: result})
+        })
+        .catch((error) => console.error(error));
+    });
 
-  if (players[playerName]) {
-    res.json(players[playerName]);
-  } else {
-    console.log(players[playerName]);
-    res.json(players["unknown"]);
-  }
-});
+    app.get("/api/players", (req, res) => {
+      res.json(players);
+    });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+    app.post("/players", (req, res) => {
+      playerCollection
+        .insertOne(req.body)
+        .then((result) => {
+          res.redirect("/");
+        })
+        .catch((error) => console.error(error));
+    });
+
+    app.get("/api/players/:soccerPlayerName", (req, res) => {
+      const playerName = req.params.soccerPlayerName.toLowerCase();
+
+      if (players[playerName]) {
+        res.json(players[playerName]);
+      } else {
+        console.log(players[playerName]);
+        res.json(players["unknown"]);
+      }
+    });
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((error) => console.error(error));
