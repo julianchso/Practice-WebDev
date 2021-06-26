@@ -28,13 +28,17 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         .find()
         .toArray()
         .then((result) => {
-          res.render('index.ejs', {players: result})
+          res.render("index.ejs", { players: result });
         })
         .catch((error) => console.error(error));
     });
 
     app.get("/api/players", (req, res) => {
-      res.json(players);
+      db.collection("players")
+        .find()
+        .toArray((err, arr) => {
+          res.json(arr);
+        });
     });
 
     app.post("/players", (req, res) => {
@@ -44,18 +48,10 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
           res.redirect("/");
         })
         .catch((error) => console.error(error));
+      console.log(req.body);
     });
 
-    app.get("/api/players/:soccerPlayerName", (req, res) => {
-      const playerName = req.params.soccerPlayerName.toLowerCase();
-
-      if (players[playerName]) {
-        res.json(players[playerName]);
-      } else {
-        console.log(players[playerName]);
-        res.json(players["unknown"]);
-      }
-    });
+    app.delete("/", (req, res) => {});
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);

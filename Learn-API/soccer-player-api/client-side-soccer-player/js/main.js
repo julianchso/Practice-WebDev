@@ -1,4 +1,7 @@
-document.querySelector("button").addEventListener("click", getPlayerName);
+document.querySelector("submitButton").addEventListener("click", getPlayerName);
+document
+  .querySelector("dataDeleteNameButton")
+  .addEventListener("click", deleteEntry);
 
 async function getPlayerName() {
   const playerName = document.querySelector("input").value;
@@ -11,4 +14,8 @@ async function getPlayerName() {
   } catch (err) {
     console.log(err);
   }
+}
+
+async function deleteEntry() {
+  console.log("Button is working!");
 }

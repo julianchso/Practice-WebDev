@@ -13,7 +13,7 @@
     <form action="/players" method="POST">
       <input type="text" placeholder="name" name="name" />
       <input type="text" placeholder="club" name="club" />
-      <button type="submit">Submit</button>
+      <button type="submit" class='submitButton'>Submit</button>
     </form>
 
     <h2>Players</h2>
@@ -23,6 +23,7 @@
       <li class="players">
         <span><%= players[i].name %></span>:
         <span><%= players[i].club %></span>
+        <button class="dataDeleteNameButton">Delete</button>
       </li>
       <% } %>
     </ul>
