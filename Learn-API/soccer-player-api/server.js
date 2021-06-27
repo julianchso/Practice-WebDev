@@ -42,16 +42,27 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     });
 
     app.post("/players", (req, res) => {
+      // const body = req.body;
+      // const name = req.body[0].name;
+      // const club = req.body[1].club;
+      // const id = req.body[2]._id;
+      // const id = req.ObjectId.toString();
       playerCollection
         .insertOne(req.body)
         .then((result) => {
           res.redirect("/");
         })
         .catch((error) => console.error(error));
-      console.log(req.body);
+      // console.log(name);
+      // console.log(body);
+      // console.log(club);
+      // console.log(id);
     });
 
-    app.delete("/", (req, res) => {});
+    app.delete("/delete/_id", (req, res) => {
+      // playerCollection.deleteOne()
+      let findID = console.log(req.body);
+    });
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
