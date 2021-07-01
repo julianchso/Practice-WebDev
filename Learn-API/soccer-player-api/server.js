@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
+const { request } = require("express");
 
 const PORT = process.env.PORT || 8000;
 
@@ -30,7 +31,7 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
         .then((result) => {
           res.render("index.ejs", { players: result });
         })
-        .catch((error) => console.error(error));
+        .catch((err) => console.error(err));
     });
 
     app.get("/api/players", (req, res) => {
@@ -42,26 +43,22 @@ MongoClient.connect(connectionString, { useUnifiedTopology: true })
     });
 
     app.post("/players", (req, res) => {
-      // const body = req.body;
-      // const name = req.body[0].name;
-      // const club = req.body[1].club;
-      // const id = req.body[2]._id;
-      // const id = req.ObjectId.toString();
       playerCollection
         .insertOne(req.body)
         .then((result) => {
           res.redirect("/");
         })
         .catch((error) => console.error(error));
-      // console.log(name);
-      // console.log(body);
-      // console.log(club);
-      // console.log(id);
     });
 
-    app.delete("/delete/_id", (req, res) => {
-      // playerCollection.deleteOne()
-      let findID = console.log(req.body);
+    app.delete("/deletePlayer", (req, res) => {
+      console.log(req.body.playerName);
+      playerCollection
+        .deleteOne({ name: req.body.playerName })
+        .then((result) => {
+          console.log("Player deleted");
+          res.json("Player deleted");
+        });
     });
 
     app.listen(PORT, () => {

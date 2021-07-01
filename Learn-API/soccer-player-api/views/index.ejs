@@ -23,20 +23,13 @@
       <li class="players">
         <span><%= players[i].name %></span>:
         <span><%= players[i].club %></span>
-        <button
-          class="dataDeleteNameButton"
-          data-id="<%=players[i]._id%>"
-        >
+        <button class="dataDeleteNameButton" data-id="<%=players[i]._id%>">
           Delete
         </button>
       </li>
-      <% } %>
+      <% } %> 
     </ul>
 
-    <script
-      type="text/javascript"
-      src="../client-side-soccer-player/js/main.js"
-    >
-    </script>
+    <script type="text/javascript" src="main.js"></script>
   </body>
 </html>
